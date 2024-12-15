@@ -1,7 +1,6 @@
 package ru.gav.creditbank.deal.entity.client;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -23,41 +22,34 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Client {
     @Id
-    @Column(name = "client_id", nullable = false)
+    @Column(name = "client_id")
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID clientId;
-
-    @NotNull
-    @Column(name = "last_name", nullable = false)
+    
+    @Column(name = "last_name")
     private String lastName;
 
-    @NotNull
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "first_name")
     private String firstName;
 
     @Column(name = "middle_name")
     private String middleName;
 
-    @NotNull
-    @Column(name = "birthdate", nullable = false)
+    @Column(name = "birthdate")
     private LocalDate birthdate;
 
-    @NotNull
-    @Column(name = "email", nullable = false)
+    @Column(name = "email")
     private String email;
 
-    @NotNull
-    @Column(name = "gender", nullable = false)
+    @Column(name = "gender")
     @Convert(converter = GenderConverter.class)
     private Gender gender;
 
-    @NotNull
-    @Column(name = "marital_status", nullable = false)
+    @Column(name = "marital_status")
     @Convert(converter = MaritalStatusConverter.class)
     private MaritalStatus maritalStatus;
 
-    @NotNull
-    @Column(name = "dependent_amount", nullable = false)
+    @Column(name = "dependent_amount")
     private Integer dependentAmount;
 
     @JdbcTypeCode(SqlTypes.JSON)
@@ -66,8 +58,7 @@ public class Client {
     @JdbcTypeCode(SqlTypes.JSON)
     private Employment employment;
 
-    @NotNull
-    @Column(name = "account_number", nullable = false)
+    @Column(name = "account_number")
     private String accountNumber;
 
 }

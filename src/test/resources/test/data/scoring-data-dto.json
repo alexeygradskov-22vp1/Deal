@@ -1,0 +1,26 @@
+{
+  "amount": 101000,
+  "term": 24,
+  "firstName": "Алексей",
+  "lastName": "Градсков",
+  "middleName": "Владимирович",
+  "gender": "Male",
+  "birthdate": "2002-11-11",
+  "passportSeries": "4345",
+  "passportNumber": "767632",
+  "passportIssueDate": "2024-12-14",
+  "passportIssueBranch": "ГУМВД",
+  "maritalStatus": "Single",
+  "dependentAmount": 40000,
+  "employment": {
+    "employmentStatus": "Employee",
+    "employerINN": "654363",
+    "salary": 180000,
+    "position": "Top_manager",
+    "workExperienceTotal": 30,
+    "workExperienceCurrent": 5
+  },
+  "accountNumber": "string",
+  "isInsuranceEnabled": true,
+  "isSalaryClient": true
+}
