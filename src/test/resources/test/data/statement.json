@@ -1,0 +1,31 @@
+{
+  "statementId": "eb8804f8-d5d1-4dfb-9efa-ad030e565c29",
+  "appliedOffer": {
+    "statementId": "4e781cd2-1981-42a4-9d9c-0eacb79e7697",
+    "requestedAmount": 100000,
+    "totalAmount": 101000,
+    "term": 24,
+    "monthlyPayment": 4707.391657897000,
+    "rate": 11,
+    "isInsuranceEnabled": true,
+    "isSalaryClient": true
+  },
+  "creationDate": "2024-12-15T13:50:58.617Z",
+  "sesCode": "string",
+  "signDate": "2024-12-15T13:50:58.617Z",
+  "status": "CC_APPROVED",
+  "statusHistory": [],
+  "client": {
+    "lastName": "Градсков",
+    "firstName": "Алексей",
+    "middleName": "Владимирович",
+    "birthdate": "2002-11-11",
+    "email": "Gradskov@gmail.com",
+    "dependentAmount": "100000",
+    "passport": {
+      "series": "4345",
+      "number": "767632"
+    }
+  },
+  "credit": {}
+}

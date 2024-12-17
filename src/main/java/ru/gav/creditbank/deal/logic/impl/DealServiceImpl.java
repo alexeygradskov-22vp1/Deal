@@ -67,7 +67,7 @@ public class DealServiceImpl implements DealService {
                 uri(uriBuilder -> uriBuilder.path(offersEndpoint).build())
                 .body(BodyInserters.fromValue(loanStatementRequestDto)).
                 retrieve().bodyToFlux(LoanOfferDto.class).
-                doOnError(e->exceptionSupplier.calculateLoanOffersExceptionSupplier(e.getMessage())).
+                doOnError(e -> exceptionSupplier.calculateLoanOffersExceptionSupplier(e.getMessage())).
                 filter(Objects::nonNull).map(x -> x.statementId(finalStatementDto.getStatementId())).
                 toStream();
         return loanOfferDtoStream.toList();
@@ -99,7 +99,7 @@ public class DealServiceImpl implements DealService {
                 body(BodyInserters.fromValue(scoringDataDto)).
                 retrieve().
                 bodyToMono(CreditDto.class).
-                doOnError(message->exceptionSupplier.scoringDataExceptionSupplier(message.getMessage())).
+                doOnError(message -> exceptionSupplier.scoringDataExceptionSupplier(message.getMessage())).
                 block());
         CreditDto creditDto = optionalCreditDto.
                 orElseThrow(exceptionSupplier.webClientReturnNullExceptionSupplier(calculatorEndpoint));
@@ -111,6 +111,6 @@ public class DealServiceImpl implements DealService {
                 ApplicationStatus.CC_APPROVED.name(),
                 Instant.now(),
                 ChangeType.AUTOMATIC));
-        statementService.save(statementDto);
+        statementService.update(statementDto);
     }
 }

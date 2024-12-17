@@ -22,10 +22,8 @@ public class CreditDaoImpl implements CreditDao {
 
     @Override
     public Credit update(Credit credit) {
-        creditRepository.findById(credit.getCreditId()).
-                ifPresentOrElse(
-                        (x) -> creditRepository.save(credit),
-                        () -> exceptionSupplier.noSuchElementInDatabaseExceptionSupplier(credit.getCreditId().toString()));
+        creditRepository.findById(credit.getCreditId()).orElseThrow(exceptionSupplier.noSuchElementInDatabaseExceptionSupplier(credit.getCreditId().toString()));
+        creditRepository.save(credit);
         return credit;
     }
 }

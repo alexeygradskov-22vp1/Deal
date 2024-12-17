@@ -8,20 +8,23 @@ import org.junit.jupiter.api.Test;
 import org.openapitools.jackson.nullable.JsonNullableModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import ru.gav.creditbank.deal.dto.ClientDto;
 import ru.gav.creditbank.deal.dto.StatementDto;
 import ru.gav.deal.model.FinishRegistrationRequestDto;
+import ru.gav.deal.model.LoanStatementRequestDto;
 import ru.gav.deal.model.ScoringDataDto;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class ExtractorTest {
 
     private FinishRegistrationRequestDto finishRegistrationRequestDto;
     private StatementDto statementDto;
+    private LoanStatementRequestDto loanStatementRequestDto;
 
     @Autowired
     Extractor extractor;
@@ -31,10 +34,12 @@ public class ExtractorTest {
         try (InputStream statementDtoStream =
                      StatementDto.class.getResourceAsStream("/test/data/statement-dto.json");
              InputStream finishRegistrationStream =
-                     FinishRegistrationRequestDto.class.getResourceAsStream("/test/data/finish-registration-dto.json")) {
+                     FinishRegistrationRequestDto.class.getResourceAsStream("/test/data/finish-registration-dto.json");
+             InputStream loanStatementStream = LoanStatementRequestDto.class.getResourceAsStream("/test/data/loan-statement-request-dto.json")) {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.registerModule(new JavaTimeModule());
             objectMapper.registerModule(new JsonNullableModule());
+            loanStatementRequestDto = objectMapper.readValue(loanStatementStream, LoanStatementRequestDto.class);
             statementDto = objectMapper.readValue(statementDtoStream, StatementDto.class);
             finishRegistrationRequestDto = objectMapper.readValue(finishRegistrationStream, FinishRegistrationRequestDto.class);
         } catch (IOException e) {
@@ -43,7 +48,7 @@ public class ExtractorTest {
     }
 
     @Test
-    public void testExtractScoringDataDtoFromFinishRegistrationDtoAndStatementDto(){
+    public void testExtractScoringDataDtoFromFinishRegistrationDtoAndStatementDto() {
         ScoringDataDto scoringDataDto =
                 extractor.extractScoringDataDtoFromFinishRegistrationDtoAndStatementDto(
                         finishRegistrationRequestDto,
@@ -82,5 +87,20 @@ public class ExtractorTest {
         assertNotNull(scoringDataDto.getIsInsuranceEnabled());
         assertNotNull(scoringDataDto.getIsSalaryClient());
 
+    }
+
+    @Test
+    public void testExtractClientFromLoanStatement() {
+        ClientDto clientDto =
+                extractor.extractClientFromLoanStatement(
+                        loanStatementRequestDto);
+        assertTrue(clientDto.getLastName().isPresent());
+        assertTrue(clientDto.getFirstName().isPresent());
+        assertTrue(clientDto.getMiddleName().isPresent());
+        assertNotNull(clientDto.getBirthdate());
+        assertTrue(clientDto.getEmail().isPresent());
+        assertNotNull(clientDto.getPassport());
+        assertNotNull(clientDto.getPassport().getNumber());
+        assertNotNull(clientDto.getPassport().getSeries());
     }
 }

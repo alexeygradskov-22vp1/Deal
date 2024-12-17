@@ -26,7 +26,7 @@ public class StatementServiceImpl implements StatementService {
     public void update(StatementDto statementDto) {
         Statement statement = statementDao.getOne(statementDto.getStatementId());
         statement = statementMapper.mapDtoToEntity(statementDto);
-        statementDao.save(statement);
+        statementDao.update(statement);
     }
 
     @Override
