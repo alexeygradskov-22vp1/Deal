@@ -1,0 +1,8 @@
+links:
+  urls:
+    calculator-host: ${CALCULATOR_HOST_URL:http://localhost:8080}
+    calculator/offers: calculator/offers
+    calculator/calc: calculator/calc
+server:
+  port: 8081
+

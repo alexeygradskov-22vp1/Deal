@@ -1,0 +1,16 @@
+{
+  "gender": "Male",
+  "maritalStatus": "Single",
+  "dependentAmount": 40000,
+  "passportIssueDate": "2024-12-14",
+  "passportIssueBranch": "ГУМВД",
+  "employment": {
+    "employmentStatus": "Employee",
+    "employerINN": "654363",
+    "salary": 180000,
+    "position": "Top_manager",
+    "workExperienceTotal": 30,
+    "workExperienceCurrent": 5
+  },
+  "accountNumber": "string"
+}

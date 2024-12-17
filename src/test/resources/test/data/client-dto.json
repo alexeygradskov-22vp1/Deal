@@ -1,0 +1,13 @@
+{
+  "clientId": "4e781cd2-1981-42a4-9d9c-0eacb79e7697",
+  "lastName": "Градсков",
+  "firstName": "Алексей",
+  "middleName": "Владимирович",
+  "birthdate": "2002-11-11",
+  "email": "Gradskov@gmail.com",
+  "dependentAmount": "100000",
+  "passport": {
+    "series": "4345",
+    "number": "767632"
+  }
+}
