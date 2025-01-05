@@ -1,4 +1,7 @@
 spring:
+  liquibase:
+    change-log: classpath:db/migrations/changelog.xml
+    enabled: true
   datasource:
     url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:8001/profiles}
     username: ${JDBC_DATABASE_USERNAME:root}
@@ -8,7 +11,7 @@ spring:
       maximum-pool-size: 10
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     open-in-view: false
     properties:
       hibernate:
