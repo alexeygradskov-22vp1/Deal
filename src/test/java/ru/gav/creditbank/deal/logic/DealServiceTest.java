@@ -5,15 +5,19 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.openapitools.jackson.nullable.JsonNullableModule;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.testcontainers.shaded.com.google.common.base.Predicate;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import ru.gav.creditbank.deal.dto.ClientDto;
 import ru.gav.creditbank.deal.dto.CreditDto;
 import ru.gav.creditbank.deal.dto.StatementDto;
+import ru.gav.creditbank.deal.exception.NoSuchElementInDatabaseException;
+import ru.gav.creditbank.deal.exception.WebClientReturnNullException;
 import ru.gav.creditbank.deal.exception.supplier.ExceptionSupplier;
 import ru.gav.creditbank.deal.logic.impl.DealServiceImpl;
 import ru.gav.creditbank.deal.mappers.Extractor;
@@ -27,12 +31,13 @@ import ru.gav.deal.model.ScoringDataDto;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 
@@ -143,5 +148,51 @@ public class DealServiceTest {
 
     }
 
+    @Test
+    public void finishRegistrationTestUnsuccessful() {
+        dealService = new DealServiceImpl(statementService, clientService, creditService, extractor, webClient, new ExceptionSupplier());
+        Mono<CreditDto> creditDtoMono = Mockito.mock(Mono.class);
+        Optional<CreditDto> optionalMock = Mockito.mock(Optional.class);
+        UUID statementId = statementDto.getStatementId();
+        doReturn(statementDto).when(statementService).getOne(statementId);
+        doReturn(scoringDataDto).when(extractor).extractScoringDataDtoFromFinishRegistrationDtoAndStatementDto(finishRegistrationRequestDto, statementDto);
+        doReturn(requestBodyUriMock).when(webClient).post();
+        doReturn(requestBodyMock).when(requestBodyUriMock).uri(any(Function.class));
+        doReturn(requestHeadersMock).when(requestBodyMock).body(any(BodyInserter.class));
+        doReturn(responseMock).when(requestHeadersMock).retrieve();
+        doReturn(creditDtoMono).when(responseMock).bodyToMono(CreditDto.class);
+        doReturn(creditDtoMono).when(creditDtoMono).doOnError(any(Consumer.class));
+        doReturn(null).when(creditDtoMono).block();
+        assertThrows(WebClientReturnNullException.class, ()->dealService.finishRegistration(finishRegistrationRequestDto, statementId.toString()));
+    }
 
+    @Test
+    public void calculateLoanOffersTestValidUnsuccessful() {
+        dealService = new DealServiceImpl(statementService, clientService, creditService, extractor, webClient, new ExceptionSupplier());
+        Stream<LoanOfferDto> loanOfferDtoStream = Mockito.mock(Stream.class);
+        Flux<LoanOfferDto> loanOfferDtoFlux = Mockito.mock(Flux.class);
+        // Мокирование зависимостей.
+        doReturn(clientDto).when(extractor).extractClientFromLoanStatement(loanStatementRequestDto);
+        doReturn(clientDto).when(clientService).save(clientDto);
+        doReturn(statementDto).when(statementService).save(any(StatementDto.class));
+        doReturn(requestBodyUriMock).when(webClient).post();
+        doReturn(requestBodyMock).when(requestBodyUriMock).uri(any(Function.class));
+        doReturn(requestHeadersMock).when(requestBodyMock).body(any(BodyInserter.class));
+        doReturn(responseMock).when(requestHeadersMock).retrieve();
+        doReturn(loanOfferDtoFlux).when(responseMock).bodyToFlux(LoanOfferDto.class);
+        doReturn(Flux.empty()).when(loanOfferDtoFlux).doOnError(any(Consumer.class));
+        doReturn(Flux.empty()).when(loanOfferDtoFlux).filter(Objects::nonNull);
+        doReturn(Flux.empty()).when(loanOfferDtoFlux).map(any(Function.class));
+        doReturn(loanOfferDtoStream).when(loanOfferDtoFlux).toStream();
+        doReturn(List.of()).when(loanOfferDtoStream).toList();
+        List<LoanOfferDto> loanOfferDtoList = dealService.calculateLoanOffers(loanStatementRequestDto);
+        assertEquals(loanOfferDtoList.size(), 0);
+    }
+
+    @Test
+    public void selectOfferTestUnsuccessful() {
+        dealService = new DealServiceImpl(statementService, clientService, creditService, extractor, webClient, new ExceptionSupplier()); //TODO Вынужденное решение использовать через самостоятельную инициализацию сервиса, а не через @Autowired
+        doThrow(NoSuchElementInDatabaseException.class).when(statementService).getOne(any(UUID.class));
+        assertThrows(NoSuchElementInDatabaseException.class, ()->dealService.selectOffer(loanOfferDto.get(0)));
+    }
 }

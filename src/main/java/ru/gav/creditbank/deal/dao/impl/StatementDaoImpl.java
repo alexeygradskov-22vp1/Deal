@@ -22,10 +22,8 @@ public class StatementDaoImpl implements StatementDao {
 
     @Override
     public Statement update(Statement statement) {
-        statementRepository.findById(statement.getStatementId()).
-                ifPresentOrElse(
-                        (x) -> statementRepository.save(statement),
-                        () -> exceptionSupplier.noSuchElementInDatabaseExceptionSupplier(statement.getStatementId().toString()));
+        statementRepository.findById(statement.getStatementId()).orElseThrow(exceptionSupplier.noSuchElementInDatabaseExceptionSupplier(statement.getStatementId().toString()));
+        statementRepository.save(statement);
         return statement;
     }
 

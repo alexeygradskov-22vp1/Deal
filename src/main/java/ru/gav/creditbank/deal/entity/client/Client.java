@@ -20,6 +20,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Client {
     @Id
     @Column(name = "client_id")

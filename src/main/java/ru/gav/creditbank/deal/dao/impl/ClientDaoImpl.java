@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.gav.creditbank.deal.dao.ClientDao;
 import ru.gav.creditbank.deal.entity.client.Client;
 import ru.gav.creditbank.deal.exception.supplier.ExceptionSupplier;
-import ru.gav.creditbank.deal.logic.ClientRepository;
+import ru.gav.creditbank.deal.repository.ClientRepository;
 
 @RequiredArgsConstructor
 @Service
@@ -21,9 +21,8 @@ public class ClientDaoImpl implements ClientDao {
 
     @Override
     public Client update(Client client) {
-        clientRepository.findById(client.getClientId()).ifPresentOrElse(
-                (x) -> clientRepository.save(client),
-                () -> exceptionSupplier.noSuchElementInDatabaseExceptionSupplier(client.getClientId().toString()));
+        clientRepository.findById(client.getClientId()).orElseThrow(exceptionSupplier.noSuchElementInDatabaseExceptionSupplier(client.getClientId().toString()));
+        clientRepository.save(client);
         return client;
     }
 

@@ -1,10 +1,7 @@
 package ru.gav.creditbank.deal.entity.credit;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import ru.gav.creditbank.deal.entity.credit.enums.CreditStatus;
@@ -21,6 +18,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Credit {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

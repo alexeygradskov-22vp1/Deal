@@ -1,0 +1,24 @@
+{
+  "clientId": "70832b16-031e-4d0d-b47d-198a0fe1623b",
+  "accountNumber": "string",
+  "birthdate": "2002-11-11",
+  "dependentAmount": 40000,
+  "email": "Gradskov@gmail.com",
+  "employment": {
+    "status": "EMPLOYED",
+    "employerInn": "654363",
+    "salary": 180000,
+    "position": "TOP_MANAGER",
+    "workExperienceTotal": 30,
+    "workExperienceCurrent": 5
+  },
+  "firstName": "Алексей",
+  "gender": "MALE",
+  "lastName": "Градсков",
+  "maritalStatus": "SINGLE",
+  "middleName": "Владимирович",
+  "passport": {
+    "series": "4345",
+    "number": "767632"
+  }
+}
