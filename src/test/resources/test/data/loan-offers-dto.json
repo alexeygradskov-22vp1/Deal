@@ -1,0 +1,42 @@
+[
+  {
+    "statementId": "4e781cd2-1981-42a4-9d9c-0eacb79e7697",
+    "requestedAmount": 100000,
+    "totalAmount": 100000,
+    "term": 24,
+    "monthlyPayment": 4848.66480500000,
+    "rate": 15,
+    "isInsuranceEnabled": false,
+    "isSalaryClient": false
+  },
+  {
+    "statementId": "4e781cd2-1981-42a4-9d9c-0eacb79e7697",
+    "requestedAmount": 100000,
+    "totalAmount": 100000,
+    "term": 24,
+    "monthlyPayment": 4801.28832800000,
+    "rate": 14,
+    "isInsuranceEnabled": false,
+    "isSalaryClient": true
+  },
+  {
+    "statementId": "4e781cd2-1981-42a4-9d9c-0eacb79e7697",
+    "requestedAmount": 100000,
+    "totalAmount": 101000,
+    "term": 24,
+    "monthlyPayment": 4754.42069523000,
+    "rate": 12,
+    "isInsuranceEnabled": true,
+    "isSalaryClient": false
+  },
+  {
+    "statementId": "4e781cd2-1981-42a4-9d9c-0eacb79e7697",
+    "requestedAmount": 100000,
+    "totalAmount": 101000,
+    "term": 24,
+    "monthlyPayment": 4707.391657897000,
+    "rate": 11,
+    "isInsuranceEnabled": true,
+    "isSalaryClient": true
+  }
+]

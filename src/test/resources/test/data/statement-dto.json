@@ -1,0 +1,27 @@
+{
+  "statementId": "4e781cd2-1981-42a4-9d9c-0eacb79e7697",
+  "client": {
+    "lastName": "Градсков",
+    "firstName": "Алексей",
+    "middleName": "Владимирович",
+    "birthdate": "2002-11-11",
+    "email": "Gradskov@gmail.com",
+    "dependentAmount": "100000",
+    "passport": {
+      "series": "4345",
+      "number": "767632"
+    }
+  },
+  "appliedOffer": {
+    "statementId": "4e781cd2-1981-42a4-9d9c-0eacb79e7697",
+    "requestedAmount": 100000,
+    "totalAmount": 101000,
+    "term": 24,
+    "monthlyPayment": 4707.391657897000,
+    "rate": 11,
+    "isInsuranceEnabled": true,
+    "isSalaryClient": true
+  },
+  "statusHistory": []
+}
+

@@ -91,6 +91,92 @@ paths:
 
 components:
   schemas:
+    ScoringData:
+      nullable: false
+      type: object
+      description: Оценочные данные
+      required:
+        - amount
+        - term
+        - firstName
+        - lastName
+        - gender
+        - birthdate
+        - passportSeries
+        - passportNumber
+        - passportIssueBranch
+        - passportIssueDate
+        - employment
+        - maritalStatus
+        - dependentAmount
+        - accountNumber
+        - isSalaryClient
+        - isInsuranceEnabled
+      properties:
+        amount:
+          type: number
+          nullable: false
+          example: 20000
+        term:
+          type: integer
+          nullable: false
+          minimum: 6
+          maximum: 36
+        firstName:
+          type: string
+          nullable: false
+          example: "Ivan"
+        lastName:
+          type: string
+          nullable: false
+          example: "Ivanov"
+        middleName:
+          type: string
+          example: "Ivanovich"
+          nullable: false
+        gender:
+          $ref: '#/components/schemas/Gender'
+        birthdate:
+          type: string
+          format: date
+          nullable: false
+          x-field-extra-annotation: "@ru.gav.creditbank.deal.validation.CheckAge"
+        passportSeries:
+          type: string
+          nullable: false
+          example: "1111"
+          maxLength: 4
+          minLength: 4
+        passportNumber:
+          type: string
+          nullable: false
+          minLength: 6
+          maxLength: 6
+          example: "111111"
+        passportIssueDate:
+          type: string
+          format: date
+          nullable: false
+        passportIssueBranch:
+          type: string
+          nullable: false
+        maritalStatus:
+          $ref: '#/components/schemas/MaritalStatus'
+        dependentAmount:
+          type: integer
+          nullable: false
+        employment:
+          $ref: '#/components/schemas/Employment'
+        accountNumber:
+          type: string
+          nullable: false
+        isInsuranceEnabled:
+          type: boolean
+          nullable: false
+        isSalaryClient:
+          type: boolean
+          nullable: false
+
     LoanStatementRequest:
       nullable: false
       required:
