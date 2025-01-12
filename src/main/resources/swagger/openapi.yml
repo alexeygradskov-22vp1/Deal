@@ -1,0 +1,267 @@
+openapi: 3.0.3
+
+info:
+  version: 0.0.1-SNAPSHOT
+  title: Deal Service OpenApi
+  description: Микросервис Сделка
+  contact:
+    email: gradskovaleksej@gmail.com
+
+tags:
+  - name: Deal
+    description: Контроллер для обработки запросов по сделке
+
+paths:
+  /deal/statement:
+    post:
+      summary: рассчитывает возможные условия кредита
+      description: расчёт возможных условий кредита
+      operationId: calculateStatement
+      tags:
+        - Deal
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoanStatementRequest'
+      responses:
+        500:
+          description: Ошибка сервера. Что-то пошло не так
+        200:
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LoanOffer'
+          description: список из 4х LoanOfferDto от "худшего" к "лучшему"
+
+  /deal/offer/select:
+    post:
+      summary: Выбор одного из предложений
+      description: Выбор одного из предложений
+      operationId: selectOffer
+      tags:
+        - Deal
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoanOffer'
+      responses:
+        500:
+          description: Ошибка сервера. Что-то пошло не так
+        200:
+          content:
+            application/json:
+              schema:
+                { }
+          description: Успешное выполнение операции. Предложение выбрано
+
+  /deal/calculate/{statementId}:
+    post:
+      summary: завершение регистрации + полный подсчёт кредита
+      description: завершение регистрации + полный подсчёт кредита
+      operationId: finishRegistration
+      parameters:
+        - in: path
+          name: statementId
+          required: true
+          schema:
+            type: string
+            format: uuid
+
+      tags:
+        - Deal
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FinishRegistrationRequest'
+      responses:
+        500:
+          description: Ошибка сервера. Что-то пошло не так
+        200:
+          content:
+            application/json:
+              schema:
+                { }
+          description: Регистрация завершена
+
+
+components:
+  schemas:
+    LoanStatementRequest:
+      nullable: false
+      required:
+        - amount
+        - term
+        - firstName
+        - lastName
+        - email
+        - birthdate
+        - passportSeries
+        - passportNumber
+      type: object
+      properties:
+        amount:
+          type: number
+          nullable: false
+          example: 100000
+          minimum: 20000
+        term:
+          type: integer
+          nullable: false
+          minimum: 6
+          example: 6
+        firstName:
+          type: string
+          nullable: false
+          example: "Ivanov"
+          minLength: 2
+          maxLength: 30
+        lastName:
+          type: string
+          nullable: false
+          example: "Ivan"
+          minLength: 2
+          maxLength: 30
+        middleName:
+          type: string
+          example: "Ivanovich"
+          minLength: 2
+          maxLength: 30
+        email:
+          type: string
+          nullable: false
+          example: "IvanovII@gmail.com"
+          pattern: "^[a-z0-9A-Z_!#$%&'*+/=?`{|}~^.-]+@[a-z0-9A-Z.-]+$"
+        birthdate:
+          type: string
+          format: date
+          nullable: false
+          example: "1999.01.01"
+          x-field-extra-annotation: "@ru.gav.creditbank.deal.validation.CheckAge"
+        passportSeries:
+          nullable: false
+          type: string
+          maxLength: 4
+          minLength: 4
+          example: "1111"
+        passportNumber:
+          type: string
+          nullable: false
+          minLength: 6
+          maxLength: 6
+          example: "111111"
+
+    LoanOffer:
+      type: object
+      description: "Предложение по кредиту"
+      properties:
+        statementId:
+          type: string
+          format: uuid
+          nullable: false
+        requestedAmount:
+          type: number
+          nullable: false
+          example: 20000
+        totalAmount:
+          type: number
+          nullable: false
+          example: 20000
+        term:
+          type: integer
+          nullable: false
+          example: 6
+        monthlyPayment:
+          type: number
+          nullable: false
+          example: 10000
+        rate:
+          type: number
+          nullable: false
+          example: 10000
+        isInsuranceEnabled:
+          type: boolean
+          nullable: false
+        isSalaryClient:
+          type: boolean
+          nullable: false
+
+    FinishRegistrationRequest:
+      type: object
+      description: dto для завершения регистрации сделки
+      properties:
+        gender:
+          $ref: '#/components/schemas/Gender'
+        maritalStatus:
+          $ref: '#/components/schemas/MaritalStatus'
+        dependentAmount:
+          type: integer
+          nullable: false
+        passportIssueDate:
+          type: string
+          format: date
+          nullable: false
+        passportIssueBranch:
+          type: string
+          nullable: false
+        employment:
+          $ref: '#/components/schemas/Employment'
+        accountNumber:
+          type: string
+          nullable: false
+
+    Employment:
+      description: Данные работника
+      type: object
+      properties:
+        employmentStatus:
+          $ref: '#/components/schemas/EmploymentStatus'
+        employerINN:
+          type: string
+          nullable: false
+        salary:
+          type: number
+          nullable: false
+        position:
+          $ref: '#/components/schemas/Position'
+        workExperienceTotal:
+          type: integer
+          nullable: false
+        workExperienceCurrent:
+          type: integer
+          nullable: false
+
+    EmploymentStatus:
+      description: Рабочий статус
+      enum:
+        - Employee
+        - Self_employed
+        - Unemployed
+        - Business_owner
+
+    Position:
+      description: Позиция работника
+      enum:
+        - Top_manager
+        - Middle_manager
+        - Lower_level_manager
+        - Contractor
+
+    Gender:
+      description: Пол заемщика
+      enum:
+        - Male
+        - Female
+        - Non_Binary
+
+    MaritalStatus:
+      description: Семейное положение
+      enum:
+        - Single
+        - Married
+        - Divorced
+        - Widow_Widower
