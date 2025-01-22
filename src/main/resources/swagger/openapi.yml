@@ -88,6 +88,61 @@ paths:
                 { }
           description: Регистрация завершена
 
+  /deal/document/{statementId}/send:
+    post:
+      parameters:
+        - in: path
+          name: statementId
+          description: Id заявки
+          required: true
+          schema:
+            type: string
+            format: uuid
+      description: запрос на отправку документов.
+      summary: отправка запроса на отправку документов.
+      tags:
+        - Dossier
+      operationId: send
+      responses:
+        200:
+          description: "Уведомление успешно отправлено"
+  /deal/document/{statementId}/sign:
+    post:
+      parameters:
+        - in: path
+          name: statementId
+          description: Id заявки
+          required: true
+          schema:
+            type: string
+            format: uuid
+      description: запрос на подписание документов.
+      summary: отправка запроса на подписание документов.
+      tags:
+        - Dossier
+      operationId: sign
+      responses:
+        200:
+          description: "Уведомление успешно отправлено"
+
+  /deal/document/{statementId}/code:
+    post:
+      parameters:
+        - in: path
+          name: statementId
+          description: Id заявки
+          required: true
+          schema:
+            type: string
+            format: uuid
+      description: подписание документов.
+      summary: подписание документов.
+      tags:
+        - Dossier
+      operationId: code
+      responses:
+        200:
+          description: "Уведомление успешно отправлено"
 
 components:
   schemas:
@@ -351,3 +406,43 @@ components:
         - Married
         - Divorced
         - Widow_Widower
+
+    EmailMessage:
+      required:
+        - address
+        - theme
+        - statementId
+        - text
+      properties:
+        "address":
+          description: Почта получателя
+          type: string
+          example: "proverka@example.com"
+        "theme":
+          $ref: '#/components/schemas/ThemeEnum'
+        "statementId":
+          description: Id заявления
+          type: string
+          format: uuid
+        "text":
+          description: "Текст сообщения"
+          type: string
+          example: "Текст сообщения"
+
+    ThemeEnum:
+      description: Тема сообщения
+      type: string
+      enum:
+        - finish-registration
+        - create-documents
+        - send-documents
+        - send-ses
+        - credit-issued
+        - statement-denied
+      x-enum-varnames:
+        - FINISH_REGISTRATION
+        - CREATE_DOCUMENTS
+        - SEND_DOCUMENTS
+        - SEN_SES
+        - CREDIT_ISSUED
+        - STATEMENT_DENIED

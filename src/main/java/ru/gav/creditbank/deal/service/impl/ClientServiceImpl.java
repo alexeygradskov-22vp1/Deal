@@ -8,6 +8,8 @@ import ru.gav.creditbank.deal.entity.client.Client;
 import ru.gav.creditbank.deal.mappers.ClientMapper;
 import ru.gav.creditbank.deal.service.ClientService;
 
+import java.util.UUID;
+
 @RequiredArgsConstructor
 @Service
 public class ClientServiceImpl implements ClientService {
@@ -19,4 +21,5 @@ public class ClientServiceImpl implements ClientService {
         Client client = clientMapper.mapDtoToEntity(clientDto);
         return clientMapper.mapEntityToDto(clientDao.save(client));
     }
+
 }
