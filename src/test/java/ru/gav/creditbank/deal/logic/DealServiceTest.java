@@ -23,6 +23,7 @@ import ru.gav.creditbank.deal.logic.impl.DealServiceImpl;
 import ru.gav.creditbank.deal.mappers.Extractor;
 import ru.gav.creditbank.deal.service.ClientService;
 import ru.gav.creditbank.deal.service.CreditService;
+import ru.gav.creditbank.deal.service.DossierService;
 import ru.gav.creditbank.deal.service.StatementService;
 import ru.gav.deal.model.FinishRegistrationRequestDto;
 import ru.gav.deal.model.LoanOfferDto;
@@ -50,6 +51,7 @@ public class DealServiceTest {
     private ScoringDataDto scoringDataDto;
     private FinishRegistrationRequestDto finishRegistrationRequestDto;
     private CreditDto creditDto;
+    private DossierService dossierService;
 
     private String offersEndpoint = "calculate/offers";
 
@@ -109,7 +111,7 @@ public class DealServiceTest {
 
     @Test
     public void calculateLoanOffersTestValid() {
-        dealService = new DealServiceImpl(statementService, clientService, creditService, extractor, webClient, new ExceptionSupplier());
+        dealService = new DealServiceImpl(statementService, clientService, creditService, extractor, webClient, new ExceptionSupplier(), dossierService);
         Flux<LoanOfferDto> loanOfferDtoFlux = Flux.fromIterable(loanOfferDto);
         // Мокирование зависимостей.
         doReturn(clientDto).when(extractor).extractClientFromLoanStatement(loanStatementRequestDto);
@@ -126,14 +128,14 @@ public class DealServiceTest {
 
     @Test
     public void selectOfferTest() {
-        dealService = new DealServiceImpl(statementService, clientService, creditService, extractor, webClient, new ExceptionSupplier()); //TODO Вынужденное решение использовать через самостоятельную инициализацию сервиса, а не через @Autowired
+        dealService = new DealServiceImpl(statementService, clientService, creditService, extractor, webClient, new ExceptionSupplier(),dossierService); //TODO Вынужденное решение использовать через самостоятельную инициализацию сервиса, а не через @Autowired
         doReturn(statementDto).when(statementService).getOne(statementDto.getStatementId());
         doNothing().when(statementService).update(statementDto);
     }
 
     @Test
     public void finishRegistrationTest() {
-        dealService = new DealServiceImpl(statementService, clientService, creditService, extractor, webClient, new ExceptionSupplier());
+        dealService = new DealServiceImpl(statementService, clientService, creditService, extractor, webClient, new ExceptionSupplier(),dossierService);
         UUID statementId = statementDto.getStatementId();
         doReturn(statementDto).when(statementService).getOne(statementId);
         doReturn(scoringDataDto).when(extractor).extractScoringDataDtoFromFinishRegistrationDtoAndStatementDto(finishRegistrationRequestDto, statementDto);
@@ -150,7 +152,7 @@ public class DealServiceTest {
 
     @Test
     public void finishRegistrationTestUnsuccessful() {
-        dealService = new DealServiceImpl(statementService, clientService, creditService, extractor, webClient, new ExceptionSupplier());
+        dealService = new DealServiceImpl(statementService, clientService, creditService, extractor, webClient, new ExceptionSupplier(),dossierService);
         Mono<CreditDto> creditDtoMono = Mockito.mock(Mono.class);
         Optional<CreditDto> optionalMock = Mockito.mock(Optional.class);
         UUID statementId = statementDto.getStatementId();
@@ -168,7 +170,7 @@ public class DealServiceTest {
 
     @Test
     public void calculateLoanOffersTestValidUnsuccessful() {
-        dealService = new DealServiceImpl(statementService, clientService, creditService, extractor, webClient, new ExceptionSupplier());
+        dealService = new DealServiceImpl(statementService, clientService, creditService, extractor, webClient, new ExceptionSupplier(),dossierService);
         Stream<LoanOfferDto> loanOfferDtoStream = Mockito.mock(Stream.class);
         Flux<LoanOfferDto> loanOfferDtoFlux = Mockito.mock(Flux.class);
         // Мокирование зависимостей.
@@ -191,7 +193,7 @@ public class DealServiceTest {
 
     @Test
     public void selectOfferTestUnsuccessful() {
-        dealService = new DealServiceImpl(statementService, clientService, creditService, extractor, webClient, new ExceptionSupplier()); //TODO Вынужденное решение использовать через самостоятельную инициализацию сервиса, а не через @Autowired
+        dealService = new DealServiceImpl(statementService, clientService, creditService, extractor, webClient, new ExceptionSupplier(), dossierService); //TODO Вынужденное решение использовать через самостоятельную инициализацию сервиса, а не через @Autowired
         doThrow(NoSuchElementInDatabaseException.class).when(statementService).getOne(any(UUID.class));
         assertThrows(NoSuchElementInDatabaseException.class, ()->dealService.selectOffer(loanOfferDto.get(0)));
     }

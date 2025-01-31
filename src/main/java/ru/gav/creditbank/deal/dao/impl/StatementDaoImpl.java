@@ -7,6 +7,7 @@ import ru.gav.creditbank.deal.entity.statement.Statement;
 import ru.gav.creditbank.deal.exception.supplier.ExceptionSupplier;
 import ru.gav.creditbank.deal.repository.StatementRepository;
 
+import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -31,5 +32,10 @@ public class StatementDaoImpl implements StatementDao {
     public Statement getOne(UUID statementUuid) {
         return statementRepository.findById(statementUuid).
                 orElseThrow(exceptionSupplier.noSuchElementInDatabaseExceptionSupplier(statementUuid.toString()));
+    }
+
+    @Override
+    public List<Statement> getAllStatements() {
+        return statementRepository.findAll();
     }
 }

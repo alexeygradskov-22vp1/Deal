@@ -4,6 +4,8 @@ import org.mapstruct.*;
 import ru.gav.creditbank.deal.dto.StatementDto;
 import ru.gav.creditbank.deal.entity.statement.Statement;
 
+import java.util.List;
+
 @Mapper(uses = {JsonNullableMapper.class},
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
         componentModel = MappingConstants.ComponentModel.SPRING,
@@ -15,4 +17,6 @@ public interface StatementMapper {
 
     @InheritConfiguration
     Statement update(StatementDto statementDto, @MappingTarget Statement statement);
+
+    List<StatementDto> mapEntityListToDtoList(List<Statement> statements);
 }

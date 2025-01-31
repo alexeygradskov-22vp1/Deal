@@ -8,6 +8,7 @@ import ru.gav.creditbank.deal.entity.statement.Statement;
 import ru.gav.creditbank.deal.mappers.StatementMapper;
 import ru.gav.creditbank.deal.service.StatementService;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -32,5 +33,10 @@ public class StatementServiceImpl implements StatementService {
     @Override
     public StatementDto getOne(UUID statementUuid) {
         return statementMapper.mapEntityToDto(statementDao.getOne(statementUuid));
+    }
+
+    @Override
+    public List<StatementDto> getAllStatements() {
+        return statementMapper.mapEntityListToDtoList(statementDao.getAllStatements());
     }
 }
