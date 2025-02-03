@@ -14,7 +14,8 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-      
+      - name: Install sudo
+        run: apt-get install -y sudo
       - name: Install Docker
         run: |
           apt-get update
