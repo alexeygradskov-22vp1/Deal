@@ -5,7 +5,7 @@ spring:
   kafka:
     bootstrap-servers: ${KAFKA_SERVER:kafka:29092}
   datasource:
-    url: ${JDBC_DATABASE_URL:jdbc:postgresql://deal_db/creditbank}
+    url: ${JDBC_DATABASE_URL:jdbc:postgresql://deal_db:8870/creditbank}
     username: ${JDBC_DATABASE_USERNAME:root}
     password: ${JDBC_DATABASE_PASSWORD:example}
     hikari:
