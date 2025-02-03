@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.openapitools.jackson.nullable.JsonNullableModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import ru.gav.creditbank.deal.dto.StatementDto;
 import ru.gav.creditbank.deal.entity.statement.Statement;
 
@@ -20,6 +22,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
+@ActiveProfiles("test")
+@TestPropertySource("/application-test.yaml")
 public class StatementMapperTest {
     @Autowired
     StatementMapper statementMapper;
