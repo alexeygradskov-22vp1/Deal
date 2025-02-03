@@ -1,0 +1,31 @@
+name: Build a JAR in spring boot using springboot
+on:
+  push:
+    branches:
+      - develop
+      
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+     image: eclipse-temurin:17-jdk
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Build with Maven
+        run: mvn clean install -DskipTests
+
+      - name: Run Tests
+        run: mvn test
+
+      - name: Build Docker Image
+        run: docker-compose build
+
+      - name: Run Docker Compose
+        run: docker-compose up
+      - name: Wait for services
+        run: sleep
+      - name: Check Running Containers
+        run: docker ps

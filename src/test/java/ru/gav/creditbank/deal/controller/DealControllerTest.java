@@ -9,6 +9,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.openapitools.jackson.nullable.JsonNullableModule;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import ru.gav.creditbank.deal.dto.StatementDto;
 import ru.gav.creditbank.deal.logic.DealService;
 import ru.gav.deal.model.FinishRegistrationRequestDto;
@@ -23,7 +25,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@SpringBootTest()
+@ActiveProfiles("test")
+@TestPropertySource("/application-test.yaml")
 public class DealControllerTest {
 
     @Mock
