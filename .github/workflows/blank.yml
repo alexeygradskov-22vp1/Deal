@@ -19,8 +19,8 @@ jobs:
         run: |
           apt-get update
           apt-get install -y docker.io
-          systemctl start docker
-          systemctl enable docker
+          sudo systemctl start docker
+          sudo systemctl enable docker
 
       - name: Install Docker Compose
         run: |
