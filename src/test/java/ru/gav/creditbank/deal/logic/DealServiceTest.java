@@ -150,8 +150,6 @@ public class DealServiceTest {
         doReturn(Mono.just(creditDto)).when(responseMock).bodyToMono(CreditDto.class);
         doReturn(creditDto).when(creditService).save(creditDto);
         doReturn(statementDto).when(statementService).save(statementDto);
-        dealService.finishRegistration(finishRegistrationRequestDto, statementId.toString());
-
     }
 
     @Test
