@@ -9,16 +9,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-     image: docker:20.10.7
+     image: 3.9.9-eclipse-temurin-17
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-
-      - name: Set up Maven and JDK
-        uses: actions/setup-java@v2
-        with:
-          java-version: '17'  # Устанавливаем Java
-          maven-version: '3.8.6'
 
       - name: Build with Maven
         run: mvn clean install -DskipTests
