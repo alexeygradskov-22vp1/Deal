@@ -9,6 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.openapitools.jackson.nullable.JsonNullableModule;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import ru.gav.creditbank.deal.dao.StatementDao;
 import ru.gav.creditbank.deal.dto.StatementDto;
 import ru.gav.creditbank.deal.entity.statement.Statement;
@@ -26,6 +28,8 @@ import static org.mockito.Mockito.doThrow;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ActiveProfiles("test")
+@TestPropertySource("/application-test.yaml")
 class StatementServiceImplTest {
 
     private Statement statement;

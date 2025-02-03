@@ -8,6 +8,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.openapitools.jackson.nullable.JsonNullableModule;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.testcontainers.shaded.com.google.common.base.Predicate;
@@ -43,6 +45,8 @@ import static org.mockito.Mockito.*;
 
 
 @SpringBootTest
+@ActiveProfiles("test")
+@TestPropertySource("/application-test.yaml")
 public class DealServiceTest {
     private LoanStatementRequestDto loanStatementRequestDto;
     private ClientDto clientDto;

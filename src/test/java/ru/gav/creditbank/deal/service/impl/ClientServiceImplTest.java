@@ -8,6 +8,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.openapitools.jackson.nullable.JsonNullableModule;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import ru.gav.creditbank.deal.dao.ClientDao;
 import ru.gav.creditbank.deal.dto.ClientDto;
 import ru.gav.creditbank.deal.entity.client.Client;
@@ -20,6 +22,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doReturn;
 
 @SpringBootTest
+@ActiveProfiles("test")
+@TestPropertySource("/application-test.yaml")
 class ClientServiceImplTest {
     @Mock
     private ClientMapper clientMapper;
