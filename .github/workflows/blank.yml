@@ -3,10 +3,13 @@ on:
   push:
     branches:
       - develop
+      
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+     image: docker:20.10.7 
     steps:
       - name: Check out code
         uses: actions/checkout@v2
