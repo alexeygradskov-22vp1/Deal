@@ -10,15 +10,22 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-     image: docker:20.10.7
+     image: maven:3.8.1-openjdk-17
     steps:
       - name: Check out code
         uses: actions/checkout@v2
 
+      - name: Install Docker Compose
+        run: |
+          apt-get update
+          apt-get install -y curl
+          curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          chmod +x /usr/local/bin/docker-compose
+          
       - name: Install Maven
         run: |
-          sudo apt-get update
-          sudo apt-get install -y maven
+          apt-get update
+          apt-get install -y maven
 
       - name: Build with Maven
         run: mvn -B package --file pom.xml -DskipTests
