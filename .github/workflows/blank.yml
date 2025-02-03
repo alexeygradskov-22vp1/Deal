@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-     image: 3.9.9-eclipse-temurin-17
+     image: eclipse-temurin:17-jdk
     steps:
       - name: Check out code
         uses: actions/checkout@v2
