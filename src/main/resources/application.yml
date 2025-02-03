@@ -2,6 +2,8 @@ spring:
   liquibase:
     change-log: classpath:db/migrations/changelog.xml
     enabled: true
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER:kafka:29092}
   datasource:
     url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:8001/profiles}
     username: ${JDBC_DATABASE_USERNAME:root}
@@ -27,5 +29,15 @@ links:
     calculator-host: ${CALCULATOR_HOST_URL:http://localhost:8080}
     calculator/offers: calculator/offers
     calculator/calc: calculator/calc
+
+app:
+  props:
+    kafka:
+      finish-registration-topic-name: finish-registration
+      create-documents-topic-name: create-documents
+      send-documents-topic-name: send-documents
+      send-ses-topic-name: send-ses
+      credit-issued-topic-name: credit-issued
+      statement-denied-topic-name: statement-denied
 server:
   port: 8081

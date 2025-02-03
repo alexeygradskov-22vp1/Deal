@@ -7,6 +7,8 @@ import ru.gav.creditbank.deal.entity.client.Client;
 import ru.gav.creditbank.deal.exception.supplier.ExceptionSupplier;
 import ru.gav.creditbank.deal.repository.ClientRepository;
 
+import java.util.UUID;
+
 @RequiredArgsConstructor
 @Service
 public class ClientDaoImpl implements ClientDao {
@@ -25,5 +27,4 @@ public class ClientDaoImpl implements ClientDao {
         clientRepository.save(client);
         return client;
     }
-
 }

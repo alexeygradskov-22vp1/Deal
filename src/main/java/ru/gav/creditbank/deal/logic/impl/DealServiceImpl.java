@@ -19,11 +19,9 @@ import ru.gav.creditbank.deal.logic.DealService;
 import ru.gav.creditbank.deal.mappers.Extractor;
 import ru.gav.creditbank.deal.service.ClientService;
 import ru.gav.creditbank.deal.service.CreditService;
+import ru.gav.creditbank.deal.service.DossierService;
 import ru.gav.creditbank.deal.service.StatementService;
-import ru.gav.deal.model.FinishRegistrationRequestDto;
-import ru.gav.deal.model.LoanOfferDto;
-import ru.gav.deal.model.LoanStatementRequestDto;
-import ru.gav.deal.model.ScoringDataDto;
+import ru.gav.deal.model.*;
 
 import java.time.Instant;
 import java.util.List;
@@ -42,6 +40,7 @@ public class DealServiceImpl implements DealService {
     @Qualifier("calculatorWebClient")
     private final WebClient webClient;
     private final ExceptionSupplier exceptionSupplier;
+    private final DossierService dossierService;
 
     @Value("${links.urls.calculator/offers}")
     private String offersEndpoint;
@@ -84,6 +83,7 @@ public class DealServiceImpl implements DealService {
                 ChangeType.AUTOMATIC));
         statementDto.setAppliedOffer(loanOfferDto);
         statementService.update(statementDto);
+        dossierService.sendMessage(ThemeEnumDto.FINISH_REGISTRATION, statementDto.getStatementId());
     }
 
     @Override
@@ -112,5 +112,6 @@ public class DealServiceImpl implements DealService {
                 Instant.now(),
                 ChangeType.AUTOMATIC));
         statementService.update(statementDto);
+        dossierService.sendMessage(ThemeEnumDto.CREATE_DOCUMENTS, statementDto.getStatementId());
     }
 }
