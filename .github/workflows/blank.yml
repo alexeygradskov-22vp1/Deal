@@ -14,10 +14,10 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Set up Maven
-        uses: actions/setup-java@v2
-        with:
-          maven-version: '3.8.6'
+      - name: Install Maven
+        run: |
+          sudo apt-get update
+          sudo apt-get install maven
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
