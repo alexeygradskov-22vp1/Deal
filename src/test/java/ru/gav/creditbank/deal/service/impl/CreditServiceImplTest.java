@@ -9,6 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.openapitools.jackson.nullable.JsonNullableModule;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import ru.gav.creditbank.deal.dao.CreditDao;
 import ru.gav.creditbank.deal.dto.CreditDto;
 import ru.gav.creditbank.deal.entity.credit.Credit;
@@ -22,6 +24,8 @@ import static org.mockito.Mockito.doReturn;
 
 @SpringBootTest
 @TestInstance(value = TestInstance.Lifecycle.PER_CLASS)
+@ActiveProfiles("test")
+@TestPropertySource("/application-test.yaml")
 class CreditServiceImplTest {
     private Credit credit;
     private CreditDto creditDto;
