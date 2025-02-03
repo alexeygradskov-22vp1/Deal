@@ -5,7 +5,7 @@ spring:
   kafka:
     bootstrap-servers: ${KAFKA_SERVER:kafka:29092}
   datasource:
-    url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:8001/profiles}
+    url: ${JDBC_DATABASE_URL:jdbc:postgresql://deal_db/creditbank}
     username: ${JDBC_DATABASE_USERNAME:root}
     password: ${JDBC_DATABASE_PASSWORD:example}
     hikari:
@@ -24,9 +24,11 @@ spring:
           new_generator_mappings: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
+
+
 links:
   urls:
-    calculator-host: ${CALCULATOR_HOST_URL:http://localhost:8080}
+    calculator-host: ${CALCULATOR_HOST_URL:http://calculator}
     calculator/offers: calculator/offers
     calculator/calc: calculator/calc
 
