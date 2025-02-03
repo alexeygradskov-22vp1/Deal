@@ -12,6 +12,39 @@ tags:
     description: Контроллер для обработки запросов по сделке
 
 paths:
+  /deal/admin/statement/{statementId}:
+    get:
+      tags:
+        - admin
+      parameters:
+        - name: statementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Успешное получение заявки
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatementDto'
+        404:
+          description: Данные не найдены
+  /deal/admin/statement:
+    get:
+      tags:
+        - admin
+      responses:
+        200:
+          description: Успешное получение всех заявок
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StatementDto'
   /deal/statement:
     post:
       summary: рассчитывает возможные условия кредита
@@ -146,6 +179,13 @@ paths:
 
 components:
   schemas:
+    StatementDto:
+      type: object
+      properties:
+        statementId:
+          type: string
+          format: uuid
+      x-java-class: ru.gav.creditbank.deal.dto.StatementDto
     ScoringData:
       nullable: false
       type: object

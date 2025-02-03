@@ -1,5 +1,6 @@
 package ru.gav.creditbank.deal.exception.handler;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -8,6 +9,7 @@ import ru.gav.creditbank.deal.exception.*;
 
 @Slf4j
 @ControllerAdvice
+@Hidden
 public class ExceptionController {
     private final String COMMUNICATION_EXCEPTION = "Произошла ошибка не сервере, пожалуйста обратитесь к администратору";
 
