@@ -4,8 +4,6 @@ on:
     branches:
       - develop
 
-
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,33 +11,25 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
-
-
       - name: Set up JDK 17
-        uses: actions/setup-java@v1
-
-
-
+        uses: actions/setup-java@v3
         with:
+          distribution: 'temurin'
           java-version: '17'
-
-
+          cache: maven
 
       - name: Build with Maven
-        run: mvn clean install
-
-
-
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v4
-
-
-
-        with:
-          name: java-app
-          path: '${{ github.workspace }}/target/*.jar'
-
-
+        run: mvn clean install -DskipTests
 
       - name: Run Tests
         run: mvn test
+
+      - name: Build Docker Image
+        run: docker-compose build
+
+      - name: Run Docker Compose
+        run: docker-compose up
+      - name: Wait for services
+        run: sleep
+      - name: Check Running Containers
+        run: docker ps
